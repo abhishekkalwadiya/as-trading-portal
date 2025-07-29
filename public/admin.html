@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<style>
+  body { font-family: sans-serif; background: #f7f7f7; padding: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+  th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+  th { background: #1a237e; color: white; }
+  button { padding: 5px 10px; }
+</style>
+</head>
+<body>
+<h2>Registered Clients</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Contact</th><th>Plan</th><th>Payment</th><th>Status</th><th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<script>
+async function fetchData() {
+  const res = await fetch('/admin/users');
+  const users = await res.json();
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = "";
+  users.forEach((user, index) => {
+    const row = `<tr>
+      <td>${user.name}</td>
+      <td>${user.contact}</td>
+      <td>${user.plan}</td>
+      <td>${user.payment}</td>
+      <td id="status-${index}">${user.status}</td>
+      <td><button onclick="markPaid(${index})">Mark as Paid</button></td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
+}
+
+async function markPaid(index) {
+  await fetch('/admin/mark-paid', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ index })
+  });
+  fetchData();
+}
+
+fetchData();
+</script>
+</body>
+</html>

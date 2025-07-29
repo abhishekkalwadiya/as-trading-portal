@@ -1,0 +1,17 @@
+{
+  "name": "as-trading-portal",
+  "version": "1.0.0",
+  "description": "Client registration form with UPI payment and admin panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
